@@ -1,3 +1,12 @@
+---
+name: Task
+about: Main Task Template
+title: ''
+labels: user-story
+assignees: ''
+type: task
+
+---
 ## 🎯 Task Objective
 
 ## 👩🏽‍🎨 User Interface
