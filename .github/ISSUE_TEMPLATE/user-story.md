@@ -1,9 +1,10 @@
 ---
 name: User Story
-about: 'User Story '
+about: User Story 
 title: ''
 labels: user-story
 assignees: ''
+type: feature
 
 ---
 
