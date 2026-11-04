@@ -2,9 +2,9 @@ package edu.pablogj0397.marvelapp.features.superheroes.data.local.xml
 
 
 import android.content.Context
-import com.google.gson.Gson
 import edu.iesam.marvelapp.R
 import edu.iesam.marvelapp.core.serialization.JsonSerializer
+import edu.pablogj0397.marvelapp.core.cache.CacheTTL
 import edu.pablogj0397.marvelapp.features.superheroes.domain.SuperHero
 
 /**
@@ -15,7 +15,8 @@ import edu.pablogj0397.marvelapp.features.superheroes.domain.SuperHero
 
 class SuperheroXmlLocalDataSource(
     private val context: Context,
-    private val serializer: JsonSerializer<List<SuperHero>>
+    private val serializer: JsonSerializer<List<SuperHero>>,
+    private val cacheTTL: CacheTTL = CacheTTL(context, "superHero_cache", 5*60*1000)
 ) {
     val sharedPref = context.getSharedPreferences(
         context.getString(R.string.local_source_superhero), Context.MODE_PRIVATE
@@ -24,22 +25,23 @@ class SuperheroXmlLocalDataSource(
     // aquí hemos decidido que en caso de no existir, devolvemos null
     public fun findAll(): List<SuperHero>? {
         val json = sharedPref.getString(keySuperHero, null)
-        return json?.let {
+        return if (!cacheTTL.isExpired()) json?.let {
             serializer.fromJson(it)
+        } else {
+            null
         }
     }
 
     public fun findById(id: String): SuperHero? {
         val superheroJsonList = findAll()
         return superheroJsonList?.find { it.id == id }
-
-
     }
 
     public fun save(superheroes: List<SuperHero>) {
         sharedPref.edit().apply {
             putString(keySuperHero, serializer.toJson(superheroes))
             apply()
+            cacheTTL.saveCurrentTime()
         }
 
     }
@@ -59,6 +61,7 @@ class SuperheroXmlLocalDataSource(
             remove(keySuperHero)
             apply()
         }
+        cacheTTL.saveCurrentTime()
     }
     companion object {
         private val keySuperHero: String = "SuperHero"
