@@ -4,7 +4,8 @@ package edu.pablogj0397.marvelapp.features.superheroes.data.local.xml
 import android.content.Context
 import edu.iesam.marvelapp.R
 import edu.iesam.marvelapp.core.serialization.JsonSerializer
-import edu.pablogj0397.marvelapp.core.cache.CacheTTL
+import edu.pablogj0397.marvelapp.core.cache.AppCacheTTL
+import edu.pablogj0397.marvelapp.core.time.LocalAppTime
 import edu.pablogj0397.marvelapp.features.superheroes.domain.SuperHero
 
 /**
@@ -16,7 +17,7 @@ import edu.pablogj0397.marvelapp.features.superheroes.domain.SuperHero
 class SuperheroXmlLocalDataSource(
     private val context: Context,
     private val serializer: JsonSerializer<List<SuperHero>>,
-    private val cacheTTL: CacheTTL = CacheTTL(context, "superHero_cache", 5*60*1000)
+    private val appCacheTTL: AppCacheTTL = AppCacheTTL(context, LocalAppTime())
 ) {
     val sharedPref = context.getSharedPreferences(
         context.getString(R.string.local_source_superhero), Context.MODE_PRIVATE
@@ -25,7 +26,7 @@ class SuperheroXmlLocalDataSource(
     // aquí hemos decidido que en caso de no existir, devolvemos null
     public fun findAll(): List<SuperHero>? {
         val json = sharedPref.getString(keySuperHero, null)
-        return if (!cacheTTL.isExpired()) json?.let {
+        return if (!appCacheTTL.isExpired(keySuperHero_cache,ttl )) json?.let {
             serializer.fromJson(it)
         } else {
             null
@@ -41,7 +42,7 @@ class SuperheroXmlLocalDataSource(
         sharedPref.edit().apply {
             putString(keySuperHero, serializer.toJson(superheroes))
             apply()
-            cacheTTL.saveCurrentTime()
+            appCacheTTL.updateTime(keySuperHero_cache)
         }
 
     }
@@ -61,11 +62,14 @@ class SuperheroXmlLocalDataSource(
             remove(keySuperHero)
             apply()
         }
-        cacheTTL.saveCurrentTime()
+        appCacheTTL.updateTime(keySuperHero_cache)
     }
     companion object {
         private val keySuperHero: String = "SuperHero"
+        private val keySuperHero_cache : String = "app_cache_TTL"
+        private val ttl: Long = 5*60*1000L
     }
+
 
 
 }
