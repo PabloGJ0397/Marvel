@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MarvelApp</string>
+    <string name="error_msg">ERROR, NO SE PUEDE CARGAR LA INFORMACIÓN</string>
 </resources>
