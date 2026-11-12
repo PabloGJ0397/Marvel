@@ -1,15 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias (libs.plugins.kotlin.serialization )
 }
 
 android {
-    namespace = "edu.pablogj0397.marvelapp"
+    namespace = "edu.iesam.marvelapp"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "edu.pablogj0397.marvelapp"
+        applicationId = "edu.iesam.marvelapp"
         minSdk = 26
         targetSdk = 37
         versionCode = 1
@@ -38,7 +39,12 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
+    implementation(libs.gson)
+    implementation(libs.kotlinx.serializationJson)
+
     testImplementation(libs.junit)
+    testImplementation(libs.mockk.android)
+    testImplementation(libs.mockk.agent)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
 }
