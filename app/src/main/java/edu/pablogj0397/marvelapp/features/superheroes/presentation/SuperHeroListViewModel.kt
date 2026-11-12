@@ -3,6 +3,8 @@ package edu.pablogj0397.marvelapp.features.superheroes.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import edu.pablogj0397.marvelapp.features.superheroes.domain.GetSuperHeroUseCase
 import edu.pablogj0397.marvelapp.features.superheroes.domain.SuperHero
 
@@ -12,7 +14,7 @@ import edu.pablogj0397.marvelapp.features.superheroes.domain.SuperHero
  * Son todos patrones de diseño que definen cómo se conectan la parte lógica y visual.
  */
 
-class SuperHeroListViewModel () :
+class SuperHeroListViewModel (private val getSuperHeroUseCase: GetSuperHeroUseCase) :
     ViewModel() { //Usamos un extends viewModel porque viewModel de Android sobrevive aunque el ciclo de vida de la activity se destruya
 
     private val _uiState = MutableLiveData<UiState>()
@@ -31,7 +33,13 @@ class SuperHeroListViewModel () :
         val hasError: Boolean = false,
         val superHeroes: List<SuperHero>? = null
 
-    ){
+    )
+
+    companion object{
+        fun factory(getSuperHeroUseCase: GetSuperHeroUseCase) = viewModelFactory {
+            initializer { SuperHeroListViewModel(getSuperHeroUseCase) }
+
+        }
 
     }
 }

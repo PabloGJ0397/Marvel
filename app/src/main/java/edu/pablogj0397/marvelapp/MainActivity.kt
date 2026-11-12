@@ -10,10 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import edu.pablogj0397.marvelapp.features.superheroes.domain.GetSuperHeroUseCase
 import edu.pablogj0397.marvelapp.features.superheroes.presentation.SuperHeroListViewModel
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel: SuperHeroListViewModel by viewModels()
+
+    private val viewModel: SuperHeroListViewModel by viewModels(
+
+    )
 
     /**
      * Ciclo de vida: Paso 1 OnCreate
@@ -34,6 +38,12 @@ class MainActivity : AppCompatActivity() {
          initObserver()
 
         viewModel.loadSuperHeroes()
+    }
+
+    private fun initObserver(){
+        viewModel.uiState.observe(this){ uiState ->
+            bind(uiState)
+        }
     }
 
     /**
@@ -62,11 +72,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun initObserver(){
-        viewModel.uiState.observe(this){ uiState ->
-            bind(uiState)
-        }
-    }
-
-
 }

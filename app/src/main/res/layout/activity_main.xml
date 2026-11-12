@@ -20,6 +20,7 @@
 
     <include
         android:id="@+id/layout_error"
-        layout="@layout/view_error"/>
+        layout="@layout/view_error"
+        android:visibility="gone"/>
 
 </FrameLayout>
