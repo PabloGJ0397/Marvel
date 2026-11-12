@@ -2,8 +2,8 @@ package edu.pablogj0397.marvelapp.features.superheroes.data.local.xml
 
 
 import android.content.Context
-import edu.iesam.marvelapp.R
-import edu.iesam.marvelapp.core.serialization.JsonSerializer
+import edu.pablogj0397.marvelapp.R
+import edu.pablogj0397.marvelapp.core.serialization.JsonSerializer
 import edu.pablogj0397.marvelapp.core.cache.AppCacheTTL
 import edu.pablogj0397.marvelapp.core.time.LocalAppTime
 import edu.pablogj0397.marvelapp.features.superheroes.domain.SuperHero

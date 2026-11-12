@@ -1,4 +1,4 @@
-package edu.iesam.marvelapp.core.serialization
+package edu.pablogj0397.marvelapp.core.serialization
 
 interface JsonSerializer<T> {
     fun toJson(obj: T): String

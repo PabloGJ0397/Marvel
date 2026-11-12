@@ -4,20 +4,42 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import edu.pablogj0397.marvelapp.core.cache.AppCacheTTL
+import edu.pablogj0397.marvelapp.core.serialization.KotlinJsonSerializer
+import edu.pablogj0397.marvelapp.core.time.LocalAppTime
+import edu.pablogj0397.marvelapp.features.superheroes.data.SuperheroDataRepository
+import edu.pablogj0397.marvelapp.features.superheroes.data.local.xml.SuperheroXmlLocalDataSource
 import edu.pablogj0397.marvelapp.features.superheroes.domain.GetSuperHeroUseCase
+import edu.pablogj0397.marvelapp.features.superheroes.domain.SuperHero
 import edu.pablogj0397.marvelapp.features.superheroes.presentation.SuperHeroListViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: SuperHeroListViewModel by viewModels(
+    private val viewModel: SuperHeroListViewModel by viewModels {
+        SuperHeroListViewModel.factory(
+            GetSuperHeroUseCase(
+                SuperheroDataRepository(
+                    SuperheroXmlLocalDataSource(
+                        this,
+                        KotlinJsonSerializer.create(),
+                        AppCacheTTL(
+                            this,
+                            LocalAppTime()
+                        )
+                    )
+                )
+            )
+        )
 
-    )
+    }
 
     /**
      * Ciclo de vida: Paso 1 OnCreate
@@ -71,5 +93,13 @@ class MainActivity : AppCompatActivity() {
                 //Montar la info en un recyclerView
             }
         }
+    }
+    private fun renderUi(superHero: SuperHero){
+        val superheroLayout = findViewById<ConstraintLayout>(R.id.superhero_layout)
+        val labelNameSuperHero =
+            superheroLayout.findViewById<TextView>(R.id.superhero_name)
+            labelNameSuperHero.text = superHero.name
+        val labelSlugSuperHero = superheroLayout.findViewById<TextView>(R.id.superhero_slug)
+            labelSlugSuperHero.text = superHero.slug
     }
 }

@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "edu.iesam.marvelapp"
+    namespace = "edu.pablogj0397.marvelapp"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "edu.iesam.marvelapp"
+        applicationId = "edu.pablogj0397.marvelapp"
         minSdk = 26
         targetSdk = 37
         versionCode = 1
