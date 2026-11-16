@@ -1,6 +1,7 @@
 package edu.pablogj0397.marvelapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -8,7 +9,9 @@ import androidx.core.view.WindowInsetsCompat
 import edu.pablogj0397.marvelapp.core.cache.AppCacheTTL
 import edu.pablogj0397.marvelapp.core.serialization.GsonJsonSerializer
 import edu.pablogj0397.marvelapp.core.time.LocalAppTime
+import edu.pablogj0397.marvelapp.features.superheroes.data.SuperheroDataRepository
 import edu.pablogj0397.marvelapp.features.superheroes.data.local.xml.SuperheroXmlLocalDataSource
+import edu.pablogj0397.marvelapp.features.superheroes.data.remote.mock.SuperHeroMockRemoteDataSource
 import edu.pablogj0397.marvelapp.features.superheroes.domain.SuperHero
 
 class MainActivity : AppCompatActivity() {
@@ -22,17 +25,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val xml = SuperheroXmlLocalDataSource(
-            this,
-            GsonJsonSerializer.create<List<SuperHero>>(),
-            AppCacheTTL(this, LocalAppTime())
-        )
-
-        xml.save(mutableListOf(
-            SuperHero("1", "SuperMan", "super-man", "https//man"),
-            SuperHero("2", "SuperWoman", "super-woman", "https//woman"),
-            SuperHero("3", "SuperDog", "super-dog", "https//dog"),
-        ))
 
     }
 }

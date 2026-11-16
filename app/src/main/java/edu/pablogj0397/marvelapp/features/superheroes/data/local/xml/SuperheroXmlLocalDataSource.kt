@@ -46,6 +46,7 @@ class SuperheroXmlLocalDataSource(
         appCache.updateTime(superheroKey)
     }
 
+
     fun deleteById(id: String) {
         save(findAll().filterNot { it.id == id })
     }
@@ -55,5 +56,12 @@ class SuperheroXmlLocalDataSource(
             remove(superheroKey)
             apply()
         }
+    }
+
+    fun update(superHero: SuperHero){
+        // superheroes contiene todos los superHeroes EXCEPTO el que quiero modificar.
+        val superheroes = findAll().filterNot { it.id == superHero.id }.toMutableList()
+        superheroes.add(superHero)
+        save(superheroes)
     }
 }
