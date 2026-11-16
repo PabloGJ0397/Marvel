@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "edu.iesam.marvelapp"
+    namespace = "edu.pablogj0397.marvelapp"
     compileSdk {
         version = release(37)
     }

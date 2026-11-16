@@ -1,7 +1,7 @@
 package edu.pablogj0397.marvelapp.core.cache
 
 import android.content.Context
-import edu.iesam.marvelapp.R
+import edu.pablogj0397.marvelapp.R
 import edu.pablogj0397.marvelapp.core.time.AppTime
 
 interface AppCache {

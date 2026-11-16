@@ -1,4 +1,4 @@
-package edu.iesam.marvelapp.core.serialization
+package edu.pablogj0397.marvelapp.core.serialization
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
